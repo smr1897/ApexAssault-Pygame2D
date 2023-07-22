@@ -12,16 +12,16 @@ pygame.display.set_caption('Apex Assault')
 class Soldier(pygame.sprite.Sprite):
     def __init__(self,x,y,scale):
         pygame.sprite.Sprite.__init__(self)
-        
+        img = pygame.image.load('images/player/idle/idle.png')
+        #img = pygame.transform.scale(img,(img.get_width()*scale,img.get_height()*scale))
+        rect = img.get_rect()
+        rect.center = (x,y)
+
 
 x = 200
 y = 200
-img = pygame.image.load('images/player/idle/idle.png')
 #Scale the image
-#scale = 2
-#img = pygame.transform.scale(img,(img.get_width()*scale,img.get_height()*scale))
-rect = img.get_rect()
-rect.center = (x,y)
+scale = 2
 
 run = True
 #Game loop
