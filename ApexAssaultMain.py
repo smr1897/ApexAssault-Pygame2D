@@ -31,8 +31,17 @@ class Soldier(pygame.sprite.Sprite):
         self.speed = speed
         self.direction = 1
         self.flip = False
-        img = pygame.image.load(f'images/{self.char_type}/idle/idle.png')
-        self.image = pygame.transform.scale(img,(img.get_width()*scale,img.get_height()*scale))
+
+        self.animation_list = []
+        self.frame_index = 0
+        self.update_time = pygame.time.get_ticks()
+
+        for i in range(5):
+            img = pygame.image.load(f'images/{self.char_type}/idle/{i}.png')
+            img = pygame.transform.scale(img,(img.get_width()*scale,img.get_height()*scale))        
+            self.animation_list.append(img)
+
+        self.image = self.animation_list[self.frame_index]     
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
 
@@ -55,10 +64,24 @@ class Soldier(pygame.sprite.Sprite):
         self.rect.x += dx
         self.rect.y += dy
 
+    def update_animation(self): 
+        ANIMATION_COOLDOWN = 100
+
+        self.image = self.animation_list[self.frame_index] 
+
+        if pygame.time.get_ticks() - self.update_time > ANIMATION_COOLDOWN:
+            self.update_time = pygame.time.get_ticks()
+            self.frame_index += 1
+        
+        #if the animation has run out again back to the start
+        if self.frame_index >= len(self.animation_list):
+            self.frame_index = 0
+
     def draw(self):
         screen.blit(pygame.transform.flip(self.image,self.flip,False),self.rect)
 
 player = Soldier('player',200,200,1,5)
+enemy = Soldier('enemy',400,200,1,5)
 
 #x = 200
 #y = 200
@@ -72,8 +95,10 @@ while run:
     clock.tick(FPS)
     draw_Background()
     #screen.blit(player.image,player.rect)
+    player.update_animation()
     player.draw()
     player.move(move_left,move_right)
+    enemy.draw()
     #event loop
     for event in pygame.event.get():
         #quit game
