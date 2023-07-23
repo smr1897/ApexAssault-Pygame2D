@@ -1,4 +1,5 @@
 import pygame
+import os
 
 pygame.init()
 
@@ -37,6 +38,7 @@ class Soldier(pygame.sprite.Sprite):
         self.direction = 1
         self.velocity_y = 0
         self.jump = False
+        self.in_air = True
         self.flip = False
 
         self.animation_list = []
@@ -45,11 +47,15 @@ class Soldier(pygame.sprite.Sprite):
         self.update_time = pygame.time.get_ticks()
         
         #Load all images for the players
-        animation_types = ['idle','run']
+        animation_types = ['idle','run','jump']
         for animation in animation_types:
             temp_list = []
-            for i in range(5):
-                img = pygame.image.load(f'images/{self.char_type}/idle/{i}.png')
+
+            #Count number of files in the folder
+            num_of_frames = len(os.listdir(f'images/{self.char_type}/{animation}'))
+
+            for i in range(num_of_frames):
+                img = pygame.image.load(f'images/{self.char_type}/{animation}/{i}.png')
                 img = pygame.transform.scale(img,(img.get_width()*scale,img.get_height()*scale))        
                 temp_list.append(img)
             #Now self.animation_list becomes a list of lists    
@@ -82,9 +88,10 @@ class Soldier(pygame.sprite.Sprite):
             self.direction = 1
 
         #Jump
-        if self.jump == True:
+        if self.jump == True and self.in_air == False:
             self.velocity_y = -11
             self.jump = False
+            self.in_air = True
 
         #Apply gravity
         self.velocity_y += GRAVITY
@@ -95,6 +102,7 @@ class Soldier(pygame.sprite.Sprite):
         #Check for collision
         if self.rect.bottom + dy > 300:
             dy = 300 - self.rect.bottom
+            self.in_air = False
 
         #Update rectangle position
         self.rect.x += dx
@@ -146,7 +154,10 @@ while run:
 
     #Update player actions
     if player.alive:
-        if move_left or move_right:
+        if player.in_air:
+            player.update_action(2)
+
+        elif move_left or move_right:
             player.update_action(1)
         else:
             player.update_action(0)
