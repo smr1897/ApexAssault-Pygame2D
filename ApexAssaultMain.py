@@ -20,6 +20,10 @@ GRAVITY = 0.75
 #Player control variables
 move_left = False
 move_right = False
+shoot = False
+
+bullet_img = pygame.image.load('images/bullet/bullet.png').convert_alpha()
+bullet_img = pygame.transform.scale(bullet_img,(bullet_img.get_width()//3,bullet_img.get_height()//3))
 
 #Define Colors
 BG = (144,201,120)
@@ -55,7 +59,7 @@ class Soldier(pygame.sprite.Sprite):
             num_of_frames = len(os.listdir(f'images/{self.char_type}/{animation}'))
 
             for i in range(num_of_frames):
-                img = pygame.image.load(f'images/{self.char_type}/{animation}/{i}.png')
+                img = pygame.image.load(f'images/{self.char_type}/{animation}/{i}.png').convert_alpha()
                 img = pygame.transform.scale(img,(img.get_width()*scale,img.get_height()*scale))        
                 temp_list.append(img)
             #Now self.animation_list becomes a list of lists    
@@ -132,6 +136,20 @@ class Soldier(pygame.sprite.Sprite):
     def draw(self):
         screen.blit(pygame.transform.flip(self.image,self.flip,False),self.rect)
 
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self,x,y,direction):
+        pygame.sprite.Sprite.__init__(self)
+        self.speed = 10
+        self.image = bullet_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (x,y)
+        self.direction = direction
+
+
+#Creating a sprite group for bullets
+bullet_group = pygame.sprite.Group()
+
+
 player = Soldier('player',200,200,1,5)
 #enemy = Soldier('enemy',400,200,1,5)
 
@@ -152,8 +170,17 @@ while run:
     
     #enemy.draw()
 
+    #Draw Bullets
+    bullet_group.update()
+    bullet_group.draw(screen) 
+
     #Update player actions
     if player.alive:
+
+        if shoot:
+            bullet = Bullet(player.rect.centerx , player.rect.centery+(player.rect.height)/4,player.direction)
+            bullet_group.add(bullet)
+
         if player.in_air:
             player.update_action(2)
 
@@ -180,6 +207,9 @@ while run:
             #jump
             if event.key == pygame.K_w:
                 player.jump = True
+            #shoot bullets
+            if event.key == pygame.K_SPACE:
+                shoot = True
             #quit game
             if event.key == pygame.K_ESCAPE:
                 run = False
@@ -190,6 +220,8 @@ while run:
                 move_left = False
             if event.key == pygame.K_d:
                 move_right = False
+            if event.key == pygame.K_SPACE:
+                shoot = False 
 
 
     pygame.display.update()
