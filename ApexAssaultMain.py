@@ -51,7 +51,7 @@ class Soldier(pygame.sprite.Sprite):
         self.update_time = pygame.time.get_ticks()
         
         #Load all images for the players
-        animation_types = ['idle','run','jump']
+        animation_types = ['idle','run','jump','shoot']
         for animation in animation_types:
             temp_list = []
 
@@ -112,6 +112,10 @@ class Soldier(pygame.sprite.Sprite):
         self.rect.x += dx
         self.rect.y += dy
 
+    def shoot(self):
+        bullet = Bullet(self.rect.centerx +(0.28*self.rect.size[0]*self.direction), self.rect.centery+(self.rect.height)/4,self.direction)
+        bullet_group.add(bullet)
+
     def update_animation(self): 
         ANIMATION_COOLDOWN = 100
 
@@ -145,6 +149,10 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.center = (x,y)
         self.direction = direction
 
+    def update(self):
+        self.rect.x += (self.direction * self.speed)
+        if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
+            self.kill()
 
 #Creating a sprite group for bullets
 bullet_group = pygame.sprite.Group()
@@ -178,8 +186,10 @@ while run:
     if player.alive:
 
         if shoot:
-            bullet = Bullet(player.rect.centerx , player.rect.centery+(player.rect.height)/4,player.direction)
-            bullet_group.add(bullet)
+            # bullet = Bullet(player.rect.centerx +(0.28*player.rect.size[0]*player.direction), player.rect.centery+(player.rect.height)/4,player.direction)
+            # bullet_group.add(bullet)
+            player.shoot()
+            player.update_action(3)
 
         if player.in_air:
             player.update_action(2)
