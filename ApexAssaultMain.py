@@ -43,6 +43,7 @@ class Soldier(pygame.sprite.Sprite):
         self.velocity_y = 0
         self.jump = False
         self.in_air = True
+        #self.shooting = False
         self.flip = False
 
         self.animation_list = []
@@ -115,9 +116,10 @@ class Soldier(pygame.sprite.Sprite):
     def shoot(self):
         bullet = Bullet(self.rect.centerx +(0.28*self.rect.size[0]*self.direction), self.rect.centery+(self.rect.height)/4,self.direction)
         bullet_group.add(bullet)
+        
 
     def update_animation(self): 
-        ANIMATION_COOLDOWN = 100
+        ANIMATION_COOLDOWN = 200
 
         self.image = self.animation_list[self.action][self.frame_index] 
 
@@ -189,7 +191,7 @@ while run:
             # bullet = Bullet(player.rect.centerx +(0.28*player.rect.size[0]*player.direction), player.rect.centery+(player.rect.height)/4,player.direction)
             # bullet_group.add(bullet)
             player.shoot()
-            player.update_action(3)
+            
 
         if player.in_air:
             player.update_action(2)
@@ -220,6 +222,7 @@ while run:
             #shoot bullets
             if event.key == pygame.K_SPACE:
                 shoot = True
+                player.update_action(3)
             #quit game
             if event.key == pygame.K_ESCAPE:
                 run = False
@@ -231,7 +234,7 @@ while run:
             if event.key == pygame.K_d:
                 move_right = False
             if event.key == pygame.K_SPACE:
-                shoot = False 
+                shoot = False
 
 
     pygame.display.update()
