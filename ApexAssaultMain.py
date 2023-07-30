@@ -181,11 +181,11 @@ class Bullet(pygame.sprite.Sprite):
                 self.kill()
 
 #Creating a sprite group for bullets
-bullet_group = pygame.sprite.Group()
+bullet_group = pygame.sprite.Group() 
 
 
-player = Soldier('player',200,200,1,5,20 )
-enemy = Soldier('enemy',400,200,1,5,20)
+player = Soldier('player',200,200,0.8,5,20 )
+enemy = Soldier('enemy',400,200,0.8,5,20)
 
 #x = 200
 #y = 200
