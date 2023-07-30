@@ -163,22 +163,22 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
         self.direction = direction
+        
 
     def update(self):
         self.rect.x += (self.direction * self.speed)
         if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
             self.kill()
 
-        #Check for collision with characters
         if pygame.sprite.spritecollide(player,bullet_group,False):
-            #this is the spritecollode class in pygame that checks for collisions between sprites and groups
-            #By adding False we are manually setting the action we want to take when a collision occurs
             if player.alive:
                 self.kill()
-
+        
         if pygame.sprite.spritecollide(enemy,bullet_group,False):
             if enemy.alive:
                 self.kill()
+
+        # bullet_group.add(self)
 
 #Creating a sprite group for bullets
 bullet_group = pygame.sprite.Group() 
