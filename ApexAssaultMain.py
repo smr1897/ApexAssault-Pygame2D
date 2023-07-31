@@ -25,6 +25,11 @@ shoot = False
 bullet_img = pygame.image.load('images/bullet/bullet.png').convert_alpha()
 bullet_img = pygame.transform.scale(bullet_img,(bullet_img.get_width()//3,bullet_img.get_height()//3))
 
+grenade_img = pygame.image.load('images/grenade/grenade.png').convert_alpha()
+grenade_img = pygame.transform.scale(grenade_img,(grenade_img.get_width()//3,grenade_img.get_height()//3))
+
+
+
 #Define Colors
 BG = (144,201,120)
 RED = (255,0,0)
@@ -195,6 +200,18 @@ class Bullet(pygame.sprite.Sprite):
 
         # bullet_group.add(self)
         
+class Grenade(pygame.sprite.Sprite):
+    def __init__(self,x,y,direction):
+        pygame.sprite.Sprite.__init__(self)
+        self.timer = 100
+        self.velocity_y = -10
+        self.speed = 7
+        self.image = grenade_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (x,y)
+        self.direction = direction
+
+
 #Creating a sprite group for bullets
 bullet_group = pygame.sprite.Group() 
 
