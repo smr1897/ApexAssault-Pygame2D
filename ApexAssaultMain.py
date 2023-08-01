@@ -231,7 +231,15 @@ class Grenade(pygame.sprite.Sprite):
             dx = self.direction * self.speed
 
         self.rect.x += dx
-        self.rect.y += dy 
+        self.rect.y += dy
+
+        #Time to explode
+        self.timer -= 1
+        if self.timer <= 0:
+            self.kill()
+            explosion = Explosion(self.rect.x,self.rect.y)
+            #We want the explosion to happen exactly where the grenade were
+            explosion_group.add(explosion) 
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self,x,y):
@@ -243,13 +251,14 @@ class Explosion(pygame.sprite.Sprite):
         self.frame_index = 0
         self.image = self.images[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect.center = (x,y)
+        self.rect.center = (x,y-55)
         self.counter = 0
         
 
 #Creating a sprite group for bullets 
 bullet_group = pygame.sprite.Group() 
 grenade_group = pygame.sprite.Group()
+explosion_group = pygame.sprite.Group()
 
 player = Soldier('player',200,200,0.8,5,20,5)
 enemy = Soldier('enemy',400,200,0.8,5,20,0)
@@ -276,7 +285,9 @@ while run:
     bullet_group.update()
     bullet_group.draw(screen)
     grenade_group.update()
-    grenade_group.draw(screen) 
+    grenade_group.draw(screen)
+    explosion_group.update()
+    explosion_group.draw(screen) 
 
     #Update player actions
     if player.alive:
