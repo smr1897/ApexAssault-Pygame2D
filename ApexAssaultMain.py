@@ -219,12 +219,30 @@ class Grenade(pygame.sprite.Sprite):
         dx = self.direction * self.speed
         dy = self.velocity_y 
 
-        self.rect.x += dx
-        self.rect.y += dy  
-
+        #Check collision with floor
         if self.rect.bottom + dy > 300:
             dy = 300 - self.rect.bottom
-            
+            self.speed = 0
+             
+
+        #Check collision with walls
+        if self.rect.left + dx < 0 or self.rect.right + dx > SCREEN_WIDTH:
+            self.direction *= -1
+            dx = self.direction * self.speed
+
+        self.rect.x += dx
+        self.rect.y += dy 
+
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.timer = 100
+        self.velocity_y = -10
+        self.speed = 7
+        self.image = grenade_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (x,y)
+        
 
 #Creating a sprite group for bullets 
 bullet_group = pygame.sprite.Group() 
