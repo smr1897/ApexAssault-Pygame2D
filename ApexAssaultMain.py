@@ -236,12 +236,15 @@ class Grenade(pygame.sprite.Sprite):
 class Explosion(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
-        self.timer = 100
-        self.velocity_y = -10
-        self.speed = 7
-        self.image = grenade_img
+        self.images = []
+        for i in range(0,6):
+            img = pygame.image.load(f'images/explosion/{i}.png').convert_alpha()
+            self.images.append(img)
+        self.frame_index = 0
+        self.image = self.images[self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
+        self.counter = 0
         
 
 #Creating a sprite group for bullets 
