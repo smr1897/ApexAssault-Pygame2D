@@ -289,7 +289,9 @@ explosion_group = pygame.sprite.Group()
 
 player = Soldier('player',200,200,0.8,5,20,5)
 enemy = Soldier('enemy',400,200,0.8,5,20,0)
+enemy2 = Soldier('enemy',300,300,0.8,5,20,0)
 enemy_group.add(enemy)
+enemy_group.add(enemy2)
 
 #x = 200
 #y = 200
@@ -305,9 +307,10 @@ while run:
     #screen.blit(player.image,player.rect)
     player.update()
     player.draw()
-    
-    enemy.update()
-    enemy.draw()
+
+    for enemy in enemy_group:
+        enemy.update()
+        enemy.draw()
 
     #Draw Bullets
     bullet_group.update()
