@@ -16,6 +16,7 @@ FPS = 60
 
 #Game Variables
 GRAVITY = 0.75
+TILE_SIZE = 40
 
 #Player control variables
 move_left = False
@@ -196,12 +197,13 @@ class Bullet(pygame.sprite.Sprite):
                 self.kill()
                 player.health -= 5
         
-        if pygame.sprite.spritecollide(enemy,bullet_group,False):
-            if enemy.alive:
-                self.kill()
-                enemy.health -= 25
+        for enemy in enemy_group:
+            if pygame.sprite.spritecollide(enemy,bullet_group,False):
+                if enemy.alive:
+                    self.kill()
+                    enemy.health -= 25
 
-        # bullet_group.add(self)
+            # bullet_group.add(self)
         
 class Grenade(pygame.sprite.Sprite):
     def __init__(self,x,y,direction):
@@ -244,9 +246,11 @@ class Grenade(pygame.sprite.Sprite):
             if abs(self.rect.centerx - player.rect.centerx)<TILE_SIZE * 2 and \
                 abs(self.rect.centery - player.rect.centery)<TILE_SIZE * 2:
                 player.health -= 50
-            if abs(self.rect.centerx - player.rect.centerx)<TILE_SIZE * 2 and \
-                abs(self.rect.centery - player.rect.centery)<TILE_SIZE * 2:
-                player.health -= 50
+                
+            for enemy in enemy_group:
+                if abs(self.rect.centerx - enemy.rect.centerx)<TILE_SIZE * 2 and \
+                    abs(self.rect.centery - enemy.rect.centery)<TILE_SIZE * 2:
+                    enemy.health -= 50
 
 
 class Explosion(pygame.sprite.Sprite):
