@@ -31,6 +31,15 @@ bullet_img = pygame.transform.scale(bullet_img,(bullet_img.get_width()//3,bullet
 grenade_img = pygame.image.load('images/grenade/grenade.png').convert_alpha()
 grenade_img = pygame.transform.scale(grenade_img,(grenade_img.get_width()//1.5,grenade_img.get_height()//1.5))
 
+health_refill_img = pygame.image.load('images/items/health_refill.png').convert_alpha()
+ammo_refill_img = pygame.image.load('images/items/ammo_refill.png').convert_alpha()
+grenade_refill_img = pygame.image.load('images/items/grenade_refill.png').convert_alpha()
+
+item_boxes = {
+    'Health' : health_refill_img,
+    'Ammo' : ammo_refill_img,
+    'Grenade' : grenade_refill_img
+}
 
 
 #Define Colors
@@ -183,6 +192,7 @@ class ItemBox(pygame.sprite.Sprite):
         self.item_type = item_type
         self.image = item_boxes[self.item_type]
         self.rect = self.image.get_rect()
+        self.rect.midtop = (x+TILE_SIZE//2,y+(TILE_SIZE-self.image.get_height()))
         
 
 
