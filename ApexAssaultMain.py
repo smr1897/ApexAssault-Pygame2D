@@ -177,6 +177,15 @@ class Soldier(pygame.sprite.Sprite):
     def draw(self):
         screen.blit(pygame.transform.flip(self.image,self.flip,False),self.rect)
 
+class ItemBox(pygame.sprite.Sprite):
+    def __init__(self,item_type,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.item_type = item_type
+        self.image = item_boxes[self.item_type]
+        self.rect = self.image.get_rect()
+        
+
+
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,x,y,direction):
         pygame.sprite.Sprite.__init__(self)
