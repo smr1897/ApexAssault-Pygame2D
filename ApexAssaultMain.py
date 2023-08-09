@@ -46,6 +46,8 @@ item_boxes = {
 BG = (144,201,120)
 RED = (255,0,0)
 
+font = pygame.font.SysFont('Futura',30)
+
 def draw_text(text,font,text_col,x,y):
     img = font.render(text,True,text_col)
     screen.blit(img,(x,y))
@@ -353,6 +355,9 @@ while run:
 
     clock.tick(FPS)
     draw_Background()
+
+    draw_text(f'Ammo: {player.ammo}',font,RED,10,35)
+
     #screen.blit(player.image,player.rect)
     player.update()
     player.draw()
