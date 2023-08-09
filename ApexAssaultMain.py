@@ -358,10 +358,12 @@ while run:
     clock.tick(FPS)
     draw_Background()
 
-    draw_text(f'Ammo: {player.ammo}',font,RED,10,35)
+    draw_text(f'Ammo: ',font,RED,10,35)
     for x in range(player.ammo):
-        screen.blit(bullet_img2,(90,40 + x*10))
-    draw_text(f'Grenades: {player.grenades}',font,RED,10,60)
+        screen.blit(bullet_img2,(90 + (x*10), 40))
+    draw_text(f'Grenades: ',font,RED,10,60)
+    for x in range(player.grenades):
+        screen.blit(grenade_img,(135 + (x*15), 60))
     draw_text(f'Health: {player.health}',font,RED,10,85)
 
     #screen.blit(player.image,player.rect)
