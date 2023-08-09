@@ -28,6 +28,8 @@ grenade_thrown = False
 bullet_img = pygame.image.load('images/bullet/bullet.png').convert_alpha()
 bullet_img = pygame.transform.scale(bullet_img,(bullet_img.get_width()//3,bullet_img.get_height()//3))
 
+bullet_img2 = pygame.image.load('images/items/bullet.png').convert_alpha()
+
 grenade_img = pygame.image.load('images/grenade/grenade.png').convert_alpha()
 grenade_img = pygame.transform.scale(grenade_img,(grenade_img.get_width()//1.5,grenade_img.get_height()//1.5))
 
@@ -357,6 +359,10 @@ while run:
     draw_Background()
 
     draw_text(f'Ammo: {player.ammo}',font,RED,10,35)
+    for x in range(player.ammo):
+        screen.blit(bullet_img2,(90,40 + x*10))
+    draw_text(f'Grenades: {player.grenades}',font,RED,10,60)
+    draw_text(f'Health: {player.health}',font,RED,10,85)
 
     #screen.blit(player.image,player.rect)
     player.update()
