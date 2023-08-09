@@ -47,7 +47,9 @@ BG = (144,201,120)
 RED = (255,0,0)
 
 def draw_text(text,font,text_col,x,y):
-    
+    img = font.render(text,True,text_col)
+    screen.blit(img,(x,y))
+
 
 def draw_Background():
     screen.fill(BG)
