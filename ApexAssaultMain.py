@@ -47,6 +47,7 @@ item_boxes = {
 #Define Colors
 BG = (144,201,120)
 RED = (255,0,0)
+GREEN = (0,255,0)
 
 font = pygame.font.SysFont('Futura',30)
 
@@ -226,6 +227,15 @@ class healthBar():
         self.health = health
         self.max_health = max_health
 
+    def draw(self,health):
+        self.health = health
+
+        #Health ratio
+        ratio = self.health/self.max_health
+
+        pygame.draw.rect(screen,RED,(self.x,self.y,150,20))
+        pygame.draw.rect(screen,GREEN,(self.x,self.y,150*ratio,20))
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,x,y,direction):
@@ -348,6 +358,8 @@ item_boxes_group.add(item_box)
 
 
 player = Soldier('player',200,200,0.8,5,20,5)
+health_bar = healthBar(10,10,player.health,player.health)
+
 enemy = Soldier('enemy',400,200,0.8,5,20,0)
 enemy2 = Soldier('enemy',300,300,0.8,5,20,0)
 enemy_group.add(enemy)
@@ -365,13 +377,15 @@ while run:
     clock.tick(FPS)
     draw_Background()
 
+    health_bar.draw(player.health)
+
     draw_text(f'Ammo: ',font,RED,10,35)
     for x in range(player.ammo):
         screen.blit(bullet_img2,(90 + (x*10), 40))
     draw_text(f'Grenades: ',font,RED,10,60)
     for x in range(player.grenades):
         screen.blit(grenade_img,(135 + (x*15), 60))
-    draw_text(f'Health: {player.health}',font,RED,10,85)
+    #draw_text(f'Health: {player.health}',font,RED,10,85)
 
     #screen.blit(player.image,player.rect)
     player.update()
