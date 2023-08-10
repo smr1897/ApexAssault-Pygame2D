@@ -219,6 +219,13 @@ class ItemBox(pygame.sprite.Sprite):
 
             self.kill()
 
+class healthBar():
+    def __init__(self,x,y,health,max_health):
+        self.x = x
+        self.y = y
+        self.health = health
+        self.max_health = max_health
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,x,y,direction):
