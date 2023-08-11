@@ -161,7 +161,18 @@ class Soldier(pygame.sprite.Sprite):
             bullet = Bullet(self.rect.centerx +(0.5*self.rect.size[0]*self.direction), self.rect.centery+(self.rect.height)/4,self.direction)
             bullet_group.add(bullet)
             self.ammo -= 1
-        
+
+    def enemy_AI(self):
+        if self.alive and player.alive:
+            if self.direction == 1:
+                ai_moving_right = True
+            else:
+                ai_moving_right = False
+            
+            ai_moving_left = not ai_moving_right
+
+            self.move(ai_moving_left,ai_moving_right)
+
 
     def update_animation(self): 
         ANIMATION_COOLDOWN = 200
