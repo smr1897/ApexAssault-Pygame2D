@@ -405,6 +405,7 @@ while run:
     player.draw()
 
     for enemy in enemy_group:
+        enemy.enemy_AI()
         enemy.update()
         enemy.draw()
 
