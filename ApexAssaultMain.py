@@ -176,28 +176,37 @@ class Soldier(pygame.sprite.Sprite):
                 self.update_action(0)
                 self.idling = True
                 self.idling_counter = 50
-
-            if self.idling == False:
-                if self.direction == 1:
-                    ai_moving_right = True
-                else:
-                    ai_moving_right = False
-                
-                ai_moving_left = not ai_moving_right
-
-                self.move(ai_moving_left,ai_moving_right)
-                self.update_action(1)
-                self.move_counter += 1
-                self.enemy_vision.center = ()
-
-                if self.move_counter > TILE_SIZE:
-                    self.direction *= -1
-                    self.move_counter *= -1
-
+            
+            #Check if the enemy is seeing the player
+            if self.enemy_vision.colliderect(player.rect):
+                #As soon as the enemy sees the player he will go idle
+                self.update_action(0)
+                #When enemy sees the player he shoots
+                self.shoot()
             else:
-                self.idling_counter -= 1
-                if self.idling_counter <= 0:
-                    self.idling = False
+                if self.idling == False:
+                    if self.direction == 1:
+                        ai_moving_right = True
+                    else:
+                        ai_moving_right = False
+                    
+                    ai_moving_left = not ai_moving_right
+
+                    self.move(ai_moving_left,ai_moving_right)
+                    self.update_action(1)
+                    self.move_counter += 1
+                    self.enemy_vision.center = (self.rect.centerx + 75 * self.direction, self.rect.centery)
+                    #This is just for visialize the enemy vision
+                    #pygame.draw.rect(screen,RED,self.enemy_vision) 
+
+                    if self.move_counter > TILE_SIZE:
+                        self.direction *= -1
+                        self.move_counter *= -1
+
+                else:
+                    self.idling_counter -= 1
+                    if self.idling_counter <= 0:
+                        self.idling = False
 
 
 
