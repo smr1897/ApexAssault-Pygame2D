@@ -85,6 +85,8 @@ class Soldier(pygame.sprite.Sprite):
         self.action = 0
         self.update_time = pygame.time.get_ticks()
         
+        self.move_counter = 0
+
         #Load all images for the players
         animation_types = ['idle','run','jump','shoot','Death']
         for animation in animation_types:
@@ -172,6 +174,7 @@ class Soldier(pygame.sprite.Sprite):
             ai_moving_left = not ai_moving_right
 
             self.move(ai_moving_left,ai_moving_right)
+            self.update_action(1)
             self.move_counter += 1
 
             if self.move_counter > TILE_SIZE:
@@ -379,8 +382,8 @@ item_boxes_group.add(item_box)
 player = Soldier('player',200,200,0.8,5,20,5)
 health_bar = healthBar(10,10,player.health,player.health)
 
-enemy = Soldier('enemy',400,200,0.8,5,20,0)
-enemy2 = Soldier('enemy',300,300,0.8,5,20,0)
+enemy = Soldier('enemy',400,200,0.8,2,20,0)
+enemy2 = Soldier('enemy',300,300,0.8,2,20,0)
 enemy_group.add(enemy)
 enemy_group.add(enemy2)
 
