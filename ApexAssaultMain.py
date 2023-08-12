@@ -172,6 +172,12 @@ class Soldier(pygame.sprite.Sprite):
             ai_moving_left = not ai_moving_right
 
             self.move(ai_moving_left,ai_moving_right)
+            self.move_counter += 1
+
+            if self.move_counter > TILE_SIZE:
+                self.direction *= -1
+                self.move_counter *= -1
+
 
 
     def update_animation(self): 
