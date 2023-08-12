@@ -88,6 +88,7 @@ class Soldier(pygame.sprite.Sprite):
         
         #Enemy ai variables
         self.move_counter = 0
+        self.enemy_vision = pygame.Rect(0,0,150,20)
         self.idling = False
         self.idling_counter = 0
 
@@ -187,6 +188,7 @@ class Soldier(pygame.sprite.Sprite):
                 self.move(ai_moving_left,ai_moving_right)
                 self.update_action(1)
                 self.move_counter += 1
+                self.enemy_vision.center = ()
 
                 if self.move_counter > TILE_SIZE:
                     self.direction *= -1
