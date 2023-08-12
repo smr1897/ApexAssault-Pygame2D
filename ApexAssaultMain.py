@@ -171,7 +171,8 @@ class Soldier(pygame.sprite.Sprite):
     def enemy_AI(self):
         if self.alive and player.alive:
 
-            if random.randint(1,200) == 1:
+            if self.idling == False and random.randint(1,200) == 1:
+                self.update_action(0)
                 self.idling = True
                 self.idling_counter = 50
 
@@ -397,7 +398,7 @@ item_boxes_group.add(item_box)
 player = Soldier('player',200,200,0.8,5,20,5)
 health_bar = healthBar(10,10,player.health,player.health)
 
-enemy = Soldier('enemy',400,200,0.8,2,20,0)
+enemy = Soldier('enemy',500,200,0.8,2,20,0)
 enemy2 = Soldier('enemy',300,300,0.8,2,20,0)
 enemy_group.add(enemy)
 enemy_group.add(enemy2)
