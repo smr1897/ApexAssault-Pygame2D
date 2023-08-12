@@ -164,7 +164,7 @@ class Soldier(pygame.sprite.Sprite):
     def shoot(self):
         if self.shoot_timeout == 0 and self.ammo > 0:
             self.shoot_timeout = 20
-            bullet = Bullet(self.rect.centerx +(0.5*self.rect.size[0]*self.direction), self.rect.centery+(self.rect.height)/4,self.direction)
+            bullet = Bullet(self.rect.centerx +(0.75*self.rect.size[0]*self.direction), self.rect.centery+(self.rect.height)/4,self.direction)
             bullet_group.add(bullet)
             self.ammo -= 1
 
