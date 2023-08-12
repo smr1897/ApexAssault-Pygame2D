@@ -1,5 +1,6 @@
 import pygame
 import os
+import random 
 
 pygame.init()
 
@@ -85,7 +86,10 @@ class Soldier(pygame.sprite.Sprite):
         self.action = 0
         self.update_time = pygame.time.get_ticks()
         
+        #Enemy ai variables
         self.move_counter = 0
+        self.idling = False
+        self.idling_counter = 0
 
         #Load all images for the players
         animation_types = ['idle','run','jump','shoot','Death']
@@ -166,20 +170,31 @@ class Soldier(pygame.sprite.Sprite):
 
     def enemy_AI(self):
         if self.alive and player.alive:
-            if self.direction == 1:
-                ai_moving_right = True
+
+            if random.randint(1,200) == 1:
+                self.idling = True
+                self.idling_counter = 50
+
+            if self.idling == False:
+                if self.direction == 1:
+                    ai_moving_right = True
+                else:
+                    ai_moving_right = False
+                
+                ai_moving_left = not ai_moving_right
+
+                self.move(ai_moving_left,ai_moving_right)
+                self.update_action(1)
+                self.move_counter += 1
+
+                if self.move_counter > TILE_SIZE:
+                    self.direction *= -1
+                    self.move_counter *= -1
+
             else:
-                ai_moving_right = False
-            
-            ai_moving_left = not ai_moving_right
-
-            self.move(ai_moving_left,ai_moving_right)
-            self.update_action(1)
-            self.move_counter += 1
-
-            if self.move_counter > TILE_SIZE:
-                self.direction *= -1
-                self.move_counter *= -1
+                self.idling_counter -= 1
+                if self.idling_counter <= 0:
+                    self.idling = False
 
 
 
